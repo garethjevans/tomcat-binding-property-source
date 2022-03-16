@@ -9,8 +9,9 @@ import java.util.PropertyPermission;
 public class BindingPropertySource implements IntrospectionUtils.SecurePropertySource {
 
     @Override
-    public String getProperty(String s) {
-        return null;
+    public String getProperty(String key) {
+        // For backward compatibility
+        return getProperty(key, null);
     }
 
     @Override
