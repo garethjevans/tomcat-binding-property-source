@@ -7,11 +7,12 @@
 	<artifactId>tomcat-binding-property-source</artifactId>
 	<packaging>jar</packaging>
 
-	<version>0.1-SNAPSHOT</version>
+	<version>${version}</version>
 	
 	<properties>
     		<maven.compiler.source>1.8</maven.compiler.source>
     		<maven.compiler.target>1.8</maven.compiler.target>
+			<version>0.1-SNAPSHOT</version>
 	</properties>
 
 	<dependencies>
