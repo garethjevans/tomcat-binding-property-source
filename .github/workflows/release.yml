@@ -32,3 +32,8 @@ jobs:
         run: mvn --batch-mode deploy -Dversion=${{ steps.prep.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload release artifact
+          run: gh release upload ${{ steps.prep.outputs.version }} target/tomcat-binding-property-source-${{ steps.prep.outputs.version }}.jar
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
