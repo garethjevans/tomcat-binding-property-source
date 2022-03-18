@@ -42,3 +42,16 @@ jobs:
         run: gh release upload ${{ steps.prep.outputs.version }} target/tomcat-binding-property-source-${{ steps.prep.outputs.version }}.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Update SHA
+        run: |
+          RELEASE_NOTES="### SHA\\n`${{ steps.sha.outputs.sha256 }}`\\n"
+
+          gh api -X PATCH -H "Content-Type: application/json" \
+                      "/repos/garethjevans/tomcat-binding-property-source/releases/${{ steps.prep.outputs.version }}" \
+                      -d '{"body": '\""$RELEASE_NOTES"\"' }'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
