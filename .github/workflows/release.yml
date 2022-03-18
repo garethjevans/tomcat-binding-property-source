@@ -31,7 +31,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Calculate Sha256
-        run: sha256sum target/tomcat-binding-property-source-${{ steps.prep.outputs.version }}.jar
+        id: sha
+        run: |
+          SHA=$(sha256sum target/tomcat-binding-property-source-${{ steps.prep.outputs.version }}.jar | awk '{ print $1 }')
+          echo ::set-output name=sha256::${SHA}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -1,64 +1,41 @@
 package com.github.garethjevans.binding;
 
 import org.apache.tomcat.util.IntrospectionUtils;
-import org.apache.tomcat.util.security.PermissionCheck;
 
-import java.security.Permission;
-import java.util.PropertyPermission;
-
-public class BindingPropertySource implements IntrospectionUtils.SecurePropertySource {
+public class BindingPropertySource implements IntrospectionUtils.PropertySource {
 
     @Override
     public String getProperty(String key) {
-        // For backward compatibility
-        return getProperty(key, null);
-    }
-
-    @Override
-    public String getProperty(String key, ClassLoader classLoader) {
         // system property first
-        String value = getSystemProperty(key, classLoader);
+
+        String value = getSystemProperty(key);
         if (value != null) {
             return value;
         }
 
         // then environment variable
-        value = getEnvironmentVariable(key, classLoader);
+        value = getEnvironmentVariable(key);
         if (value != null) {
             return value;
         }
 
         // then environment variable in lowercase with dots
-        value = getEnvironmentVariable(key.toLowerCase().replace('_', '.'), classLoader);
+        value = getEnvironmentVariable(key.toLowerCase().replace('_', '.'));
         if (value != null) {
             return value;
         }
 
         // TODO fall back on reading from a binding
-
         return null;
     }
 
-    private String getEnvironmentVariable(String key, ClassLoader classLoader) {
-
-        if (classLoader instanceof PermissionCheck) {
-            Permission p = new RuntimePermission("getenv." + key, (String)null);
-            if (!((PermissionCheck)classLoader).check(p)) {
-                return null;
-            }
-        }
-
-        return null;
+    private String getEnvironmentVariable(String key) {
+        System.out.println("getEnvironmentVariable(" + key + ")");
+        return System.getenv(key);
     }
 
-    private String getSystemProperty(String key, ClassLoader classLoader) {
-        if (classLoader instanceof PermissionCheck) {
-            Permission p = new PropertyPermission(key, "read");
-            if (!((PermissionCheck)classLoader).check(p)) {
-                return null;
-            }
-        }
-
+    private String getSystemProperty(String key) {
+        System.out.println("getSystemProperty(" + key + ")");
         return System.getProperty(key);
     }
 }
