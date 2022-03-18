@@ -46,7 +46,7 @@ jobs:
 
       - name: Update SHA
         run: |
-          RELEASE_NOTES="### SHA\\n`${{ steps.sha.outputs.sha256 }}`\\n"
+          RELEASE_NOTES="### SHA\\n* ${{ steps.sha.outputs.sha256 }}\\n"
 
           gh api -X PATCH -H "Content-Type: application/json" \
                       "/repos/garethjevans/tomcat-binding-property-source/releases/${{ steps.prep.outputs.version }}" \
