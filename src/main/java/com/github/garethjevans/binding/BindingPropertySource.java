@@ -20,7 +20,7 @@ public class BindingPropertySource implements IntrospectionUtils.PropertySource 
         }
 
         // then environment variable in lowercase with dots
-        value = getEnvironmentVariable(key.toLowerCase().replace('_', '.'));
+        value = getEnvironmentVariable(key.toUpperCase().replace('.', '_'));
         if (value != null) {
             return value;
         }
